@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class PagesController extends Controller {
+    public function index(){
+        return view('welcome',  ['cats' => Category::with(['posts', 'sub_categories'])->get()]);
+    }
     public function setupFirstStep() {
         return view('setup.first-step');
     }

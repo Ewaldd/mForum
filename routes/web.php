@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [PagesController::class, 'index'])->name('index');
 /*
  * Setup
  */
@@ -27,6 +25,9 @@ Route::post('/setupSecondStep', [PagesController::class, 'setupSecondStepCreate'
 Route::get('/setup-third-step', [PagesController::class, 'setupThirdStep'])->name('setupThirdStep');
 Route::post('/setupThirdStep', [PagesController::class, 'setupThirdStepCreate'])->name('setupThirdStepCreate');
 
-Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['prefix' => 'acp', 'middleware' => ['role:Administrator']], function () {
+});
+Auth::routes();
