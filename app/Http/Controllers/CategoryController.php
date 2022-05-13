@@ -44,9 +44,10 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show($id)
     {
-        //
+        $category = Category::where(['id' => $id])->with(['posts', 'sub_categories'])->withCount('posts')->first();
+        return $category;
     }
 
     /**

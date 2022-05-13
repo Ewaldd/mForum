@@ -12,7 +12,7 @@ use Spatie\Permission\Models\Role;
 
 class PagesController extends Controller {
     public function index(){
-        return view('welcome',  ['cats' => Category::with(['posts', 'sub_categories'])->get()]);
+        return view('welcome',  ['cats' => Category::where('category_parent_id', '=', null)->with(['posts', 'sub_categories'])->withcount('posts')->get()]);
     }
     public function setupFirstStep() {
         return view('setup.first-step');

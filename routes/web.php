@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,9 +27,14 @@ Route::post('/setupSecondStep', [PagesController::class, 'setupSecondStepCreate'
 Route::get('/setup-third-step', [PagesController::class, 'setupThirdStep'])->name('setupThirdStep');
 Route::post('/setupThirdStep', [PagesController::class, 'setupThirdStepCreate'])->name('setupThirdStepCreate');
 
-
+Route::prefix('post')->group(function () {
+    Route::get('/{id}-{title}', [PostController::class, 'show'])->name('post_show');
+});
+Route::prefix('user')->group(function() {
+    Route::get('@{name}', [PagesController::class, 'user_show'])->name('user_show');
+});
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+Route::get('/category/{id}-{title}', [CategoryController::class, 'show'])->name('category_show');
 Route::group(['prefix' => 'acp', 'middleware' => ['role:Administrator']], function () {
 });
 Auth::routes();
