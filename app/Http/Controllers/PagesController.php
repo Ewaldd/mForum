@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
-use Database\Seeders\PermissionsSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 
 class PagesController extends Controller {
@@ -51,10 +51,12 @@ class PagesController extends Controller {
             ['category_name' => ['required', 'string', 'max:255']]
         );
         $category = Category::create([
-            'name' => $request['category_name']
+            'name' => $request['category_name'],
+            'slug' => Str::slug($request['category_name'])
         ]);
         Post::create([
             'title' => "Hello World!",
+            'slug' => Str::slug("Hello World!"),
             'content' => "Thank You for using mForum!",
             'author_id' => 1,
             'category_id' => $category->id
