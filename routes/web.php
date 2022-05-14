@@ -28,13 +28,13 @@ Route::get('/setup-third-step', [PagesController::class, 'setupThirdStep'])->nam
 Route::post('/setupThirdStep', [PagesController::class, 'setupThirdStepCreate'])->name('setupThirdStepCreate');
 
 Route::prefix('post')->group(function () {
-    Route::get('/{id}-{title}', [PostController::class, 'show'])->name('post_show');
+    Route::get('/{id}-{slug}', [PostController::class, 'show'])->name('post_show');
 });
 Route::prefix('user')->group(function() {
     Route::get('@{name}', [PagesController::class, 'user_show'])->name('user_show');
 });
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/category/{id}-{title}', [CategoryController::class, 'show'])->name('category_show');
+Route::get('/category/{id}-{slug}', [CategoryController::class, 'show'])->name('category_show');
 Route::group(['prefix' => 'acp', 'middleware' => ['role:Administrator']], function () {
 });
 Auth::routes();
