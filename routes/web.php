@@ -29,6 +29,7 @@ Route::post('/setupThirdStep', [PagesController::class, 'setupThirdStepCreate'])
 
 Route::prefix('post')->group(function () {
     Route::get('/{id}-{slug}', [PostController::class, 'show'])->name('post_show');
+    Route::post('/{id}/add', [PostController::class, 'store'])->name('post_add');
 });
 Route::prefix('user')->group(function() {
     Route::get('@{name}', [PagesController::class, 'user_show'])->name('user_show');
