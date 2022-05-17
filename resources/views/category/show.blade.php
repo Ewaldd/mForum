@@ -24,7 +24,7 @@
                                 </div>
                                 <div>
                                     Author: <a
-                                        href="{{route('user_show', ['name' => \App\Models\User::where(['id' => $cat->posts->last()->author_id])->first()->name])}}">{{\App\Models\User::where(['id' => $cat->posts->last()->author_id])->first()->name}}</a>
+                                        href="{{route('user_show', ['name' => $cat->posts->last()->user->name])}}">{{$cat->posts->last()->user->name}}</a>
                                 </div>
                             @endif
                         </div>
@@ -42,7 +42,7 @@
                                 {{$post->title}}
                             </a></h1>
                         <p>Topic author:
-                            <a href="{{route('user_show', ['name' => \App\Models\User::where(['id' => $post->author_id])->first()->name])}}">{{\App\Models\User::where(['id' => $post->author_id])->first()->name}}</a>
+                            <a href="{{route('user_show', ['name' => $post->user->name])}}">{{$post->user->name}}</a>
                         </p>
                     </div>
                     <div class="flex w-1/2 -space-x-6 mt-2 flex-col md:flex-row items-center">
@@ -50,14 +50,16 @@
                             <b class="text-2xl">{{$post->replies_count}}</b>
                             <p class="text-sm">Posts</p>
                         </div>
+                        @if($post->replies_count >0)
                         <div class="hidden md:flex w-full md:w-1/2 flex-col text-right">
                             <div class="text-xl">
-                                <a href="{{route('user_show', ['name' => \App\Models\User::where(['id' => $post->replies->last()->author_id])->first()->name])}}">
-                                    {{\App\Models\User::where(['id' => $post->replies->last()->author_id])->first()->name}}
-                                    {{\Carbon\Carbon::parse($post->replies->last()->created_at)->diffForHumans()}}
+                                <a href="{{route('user_show', ['name' => $post->replies->last()->user->name])}}">
+                                    {{$post->replies->last()->user->name }}
+                                    {{\Carbon\Carbon::parse($post->replies->last()->created_at)->diffForHumans() }}
                                 </a>
                             </div>
                         </div>
+                        @endif
                     </div>
                 </div>
             @endforeach

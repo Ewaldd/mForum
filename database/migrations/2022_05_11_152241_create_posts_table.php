@@ -13,8 +13,8 @@ return new class extends Migration {
     public function up() {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable();
-            $table->string('slug')->nullable();
+            $table->string('title');
+            $table->string('slug');
             $table->text('content');
             $table->unsignedBigInteger('post_parent_id')->nullable();
             $table->foreign('post_parent_id')->references('id')->on('posts');

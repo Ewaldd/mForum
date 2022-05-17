@@ -15,7 +15,7 @@ class Category extends Model {
     }
 
     public function posts() {
-        return $this->hasMany(Post::class)->where('post_parent_id', '=', null)->with('replies')->withCount('replies');
+        return $this->hasMany(Post::class)->where('post_parent_id', '=', null)->with(['replies', 'user'])->withCount('replies');
     }
 
 }

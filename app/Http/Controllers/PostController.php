@@ -33,6 +33,8 @@ class PostController extends Controller {
             return redirect("/");
         }
         Post::create([
+            'title' => $post->first()->title,
+            'slug' => $post->first()->slug,
             'post_parent_id' => $post->first()->id,
             'category_id' => $post->first()->category_id,
             'content' => $request->post,
@@ -43,6 +45,10 @@ class PostController extends Controller {
 
     public function show($id) {
         $post = Post::where(['id' => $id])->with(['replies', 'user'])->first();
+        if(!is_null($post->post_parent_id)){
+            $post = Post::where(['id' => $post->post_parent_id])->with(['replies', 'user'])->first();
+            return redirect(route("post_show", ['id'=> $post->id, 'slug' => $post->slug]));
+        }
         return view('post.show', ['post' => $post]);
     }
 

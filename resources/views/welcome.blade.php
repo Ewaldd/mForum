@@ -25,12 +25,16 @@
                     <div class="hidden md:flex w-full md:w-1/2 flex-col text-center md:text-left">
                         @if($cat->posts_count > 0)
                             <div class="truncate overflow-hidden">
-                                <a href="{{route('post_show', ['id' => $cat->posts->last()->id, 'slug' => $cat->posts->last()->slug])}}">
-                                    {{$cat->posts->last()->title}}</a>
+                                <b class="text-2xl">
+                                    <a href="{{route('post_show', ['id' => $cat->posts->last()->id, 'slug' => $cat->posts->last()->slug])}}">
+                                        {{$cat->posts->last()->title}}</a>
+                                </b>
                             </div>
                             <div>
-                                Author: <a
-                                    href="{{route('user_show', ['name' => \App\Models\User::where(['id' => $cat->posts->last()->author_id])->first()->name])}}">{{\App\Models\User::where(['id' => $cat->posts->last()->author_id])->first()->name}}</a>
+                                <p class="text-sm">
+                                    Author: <a
+                                        href="{{route('user_show', ['name' => \App\Models\User::where(['id' => $cat->posts->last()->author_id])->first()->name])}}">{{\App\Models\User::where(['id' => $cat->posts->last()->author_id])->first()->name}}</a>
+                                </p>
                             </div>
                         @endif
                     </div>
