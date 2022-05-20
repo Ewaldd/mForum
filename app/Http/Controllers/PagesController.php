@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Report;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,9 +12,10 @@ use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 
 class PagesController extends Controller {
-    public function index(){
-        return view('welcome',  ['cats' => Category::where('category_parent_id', '=', null)->with(['posts', 'sub_categories'])->withcount('posts')->get()]);
+    public function index() {
+        return view('welcome', ['cats' => Category::where('category_parent_id', '=', null)->with(['posts', 'sub_categories'])->withcount('posts')->get()]);
     }
+
     public function setupFirstStep() {
         return view('setup.first-step');
     }
@@ -59,8 +61,19 @@ class PagesController extends Controller {
             'slug' => Str::slug("Hello World!"),
             'content' => "Thank You for using mForum!",
             'author_id' => 1,
-            'category_id' => $category->id
-            ]);
+            'category_id' => $category->id,
+            'ended' => 0
+        ]);
         return redirect('/');
+    }
+
+    public function acp_index() {
+        return view('acp.index');
+    }
+
+    public function acp_reports() {
+        $open = Report::where(['ended' =>0])->with(['reporter', 'reported', 'post'])->get();
+        $closed = Report::where(['ended' =>1])->with(['reporter', 'reported', 'post'])->get();
+       return view('acp.reports', ['open' => $open, 'closed' => $closed]);
     }
 }

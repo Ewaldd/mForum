@@ -39,5 +39,9 @@ Route::prefix('user')->group(function() {
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/category/{id}-{slug}', [CategoryController::class, 'show'])->name('category_show');
 Route::group(['prefix' => 'acp', 'middleware' => ['role:Administrator']], function () {
+    Route::get('/', [PagesController::class, 'acp_index'])->name('acp_index');
+    Route::get('/reports', [PagesController::class, 'acp_reports'])->name('acp_reports');
+    Route::get('/statistics', [PagesController::class, 'acp_statistics'])->name('acp_statistics');
+    Route::get('/users', [PagesController::class, 'acp_users'])->name('acp_users');
 });
 Auth::routes();
