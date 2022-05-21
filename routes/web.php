@@ -40,8 +40,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/category/{id}-{slug}', [CategoryController::class, 'show'])->name('category_show');
 Route::group(['prefix' => 'acp', 'middleware' => ['role:Administrator']], function () {
     Route::get('/', [PagesController::class, 'acp_index'])->name('acp_index');
-    Route::get('/reports', [PagesController::class, 'acp_reports'])->name('acp_reports');
     Route::get('/statistics', [PagesController::class, 'acp_statistics'])->name('acp_statistics');
     Route::get('/users', [PagesController::class, 'acp_users'])->name('acp_users');
+    Route::get('/user/@{name}', [PagesController::class,  'acp_user'])->name('acp_user');
+    Route::get('/reports', [PagesController::class, 'acp_reports'])->name('acp_reports');
+    Route::get('/report/{id}', [ReportController::class, 'showReport'])->name('acp_report');
+    Route::post('/report/{id}/result', [ReportController::class, 'setResult'])->name('acp_set_result');
 });
 Auth::routes();

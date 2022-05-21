@@ -76,4 +76,7 @@ class PagesController extends Controller {
         $closed = Report::where(['ended' =>1])->with(['reporter', 'reported', 'post'])->get();
        return view('acp.reports', ['open' => $open, 'closed' => $closed]);
     }
+    public function acp_users(){
+        return view('acp.users', ['users' => User::all(['id', 'name', 'created_at'])]);
+    }
 }

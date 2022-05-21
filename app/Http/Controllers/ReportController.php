@@ -20,4 +20,15 @@ class ReportController extends Controller {
         $report->save();
         return redirect(route('post_show', ['id' => $post->id, 'slug' => $post->slug]));
     }
+    public function showReport($id){
+        $report = Report::where(['id' => $id])->with('post', 'reporter', 'reported')->first();
+        return view('acp.report', ['report' => $report]);
+    }
+    public function setResult(Request $request){
+        $report = Report::find($request->id);
+        $report->ended = 1;
+        $report->save();
+
+        return redirect(route('acp_reports'));
+    }
 }
