@@ -17,6 +17,9 @@
                         <p class="text-sm">Account Created</p>
                     </div>
                 </div>
+                <div>
+                    <a href="{{route('acp_stats_user', ['name' => $user->name])}}">Better stats</a>
+                </div>
             </div>
             <div class="h-56 bg-gray-300 rounded flex text-center flex-wrap mx-4 p-4">
                 <div class="bg-white shadow-md rounded">

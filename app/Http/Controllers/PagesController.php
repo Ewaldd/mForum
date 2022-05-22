@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\Report;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
@@ -72,18 +73,37 @@ class PagesController extends Controller {
     }
 
     public function acp_reports() {
-        $open = Report::where(['ended' =>0])->with(['reporter', 'reported', 'post'])->get();
-        $closed = Report::where(['ended' =>1])->with(['reporter', 'reported', 'post'])->get();
-       return view('acp.reports', ['open' => $open, 'closed' => $closed]);
+        $open = Report::where(['ended' => 0])->with(['reporter', 'reported', 'post'])->get();
+        $closed = Report::where(['ended' => 1])->with(['reporter', 'reported', 'post'])->get();
+        return view('acp.reports', ['open' => $open, 'closed' => $closed]);
     }
 
-    public function acp_users(){
+    public function acp_users() {
         return view('acp.users', ['users' => User::all(['id', 'name', 'created_at'])]);
     }
-    public function acp_user($user){
+
+    public function acp_user($user) {
         return view('acp.user', ['user' => User::where(['name' => $user])->with(['roles', 'posts'])->first()]);
     }
-    public function acp_change_user_information(Request $request){
+
+    public function acp_stats_user($user) {
+        $user = User::where(['name' => $user])->with(['roles', 'posts'])->first();
+        $posts=DB::table('posts')
+            ->select(DB::raw('count(*) as total'),DB::raw('date(created_at) as dates'))
+            ->where(['author_id' => $user->id])
+            ->groupBy('dates')
+            ->orderBy('dates')
+            ->get();
+        $days = [];
+        $count = [];
+        foreach($posts as $post){
+            $days[] = $post->dates;
+            $count[]=$post->total;
+        }
+        return view('acp.user_stats', ['user' => $user, 'days' => json_encode($days), 'count' => json_encode($count)]);
+    }
+
+    public function acp_change_user_information(Request $request) {
         $request->validate([
             'newName' => 'required|min:3'
         ]);
@@ -92,4 +112,5 @@ class PagesController extends Controller {
         $user->save();
         return redirect(route('acp_user', ['name' => $request->newName]));
     }
+
 }

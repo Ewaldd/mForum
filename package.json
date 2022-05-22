@@ -19,6 +19,7 @@
     },
     "dependencies": {
         "alpinejs": "^3.10.2",
+        "chart.js": "^3.7.1",
         "tw-elements": "^1.0.0-alpha12"
     }
 }
