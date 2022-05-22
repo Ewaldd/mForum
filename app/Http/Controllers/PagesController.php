@@ -76,7 +76,20 @@ class PagesController extends Controller {
         $closed = Report::where(['ended' =>1])->with(['reporter', 'reported', 'post'])->get();
        return view('acp.reports', ['open' => $open, 'closed' => $closed]);
     }
+
     public function acp_users(){
         return view('acp.users', ['users' => User::all(['id', 'name', 'created_at'])]);
+    }
+    public function acp_user($user){
+        return view('acp.user', ['user' => User::where(['name' => $user])->with(['roles', 'posts'])->first()]);
+    }
+    public function acp_change_user_information(Request $request){
+        $request->validate([
+            'newName' => 'required|min:3'
+        ]);
+        $user = User::where(['name' => $request->name])->first();
+        $user->name = $request->newName;
+        $user->save();
+        return redirect(route('acp_user', ['name' => $request->newName]));
     }
 }

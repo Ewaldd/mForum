@@ -43,6 +43,9 @@ Route::group(['prefix' => 'acp', 'middleware' => ['role:Administrator']], functi
     Route::get('/statistics', [PagesController::class, 'acp_statistics'])->name('acp_statistics');
     Route::get('/users', [PagesController::class, 'acp_users'])->name('acp_users');
     Route::get('/user/@{name}', [PagesController::class,  'acp_user'])->name('acp_user');
+    Route::post('/user/@{name}/save', [PagesController::class, 'acp_change_user_information'])->name('acp_change_user_information');
+    Route::get('/user/@{name}/warn', [PagesController::class, 'acp_warn_user'])->name('acp_warn_user');
+    Route::get('/user/@{name}/ban', [PagesController::class, 'acp_ban_user'])->name('acp_ban_user');
     Route::get('/reports', [PagesController::class, 'acp_reports'])->name('acp_reports');
     Route::get('/report/{id}', [ReportController::class, 'showReport'])->name('acp_report');
     Route::post('/report/{id}/result', [ReportController::class, 'setResult'])->name('acp_set_result');
