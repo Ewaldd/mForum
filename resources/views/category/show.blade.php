@@ -37,7 +37,7 @@
             @foreach($category->posts as $post)
                 <div class="bg-gray-400 border-gray-500 rounded text-white p-4 flex">
                     <div class="flex-1 w-1/2">
-                        <h1 class="text-2xl"><a
+                        <h1 class="text-1xl"><a
                                 href="{{route('post_show', ['id' => $post->id, 'slug' => $post->slug])}}">
                                 {{$post->title}}
                             </a></h1>
@@ -47,7 +47,7 @@
                     </div>
                     <div class="flex w-1/2 -space-x-6 mt-2 flex-col md:flex-row items-center">
                         <div class="flex flex-col text-center w-1/3">
-                            <b class="text-2xl">{{$post->replies_count}}</b>
+                            <b class="text-1xl">{{$post->replies_count}}</b>
                             <p class="text-sm">Posts</p>
                         </div>
                         @if($post->replies_count >0)
